@@ -12,7 +12,8 @@ const InstagramAccountSchema = new Schema({
   followers: { type: Number, default: 0 },
   following: { type: Number, default: 0 },
   postsCount: { type: Number, default: 0 },
-  type: { type: String, enum: ["business", "personal"], default: "personal" },
+  type: { type: String, required: true },
+  //   type: { type: String, enum: ["business", "personal"], default: "personal" },
   accessToken: { type: String, required: true },
   tokenExpiresAt: { type: Date },
   connectedAt: { type: Date, default: Date.now }
