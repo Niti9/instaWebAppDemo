@@ -17,6 +17,7 @@ export const getInstagramAuthUrl = (req, res) => {
 // 2. Handle OAuth callback from Instagram – exchange the code for an access token
 export const instagramAuthCallback = async (req, res, next) => {
   const { code } = req.query;
+  console.log("code is", code);
   // const code = "AQCkPVoqjzN9P16cv5zimcwd50lgwfLAr7DFjCCC0x9RiTGs614UJDiNQco6u_st210HLqlhOUGzVikeCVCeUVM5GVFvc4aAa";
   if (!code)
     return res.status(400).json({ message: "Authorization code not provided" });
@@ -261,9 +262,7 @@ export const getAnalytics = async (req, res, next) => {
 
 // 8. Direct messages integration is not available via the Instagram API at this time.
 export const getMessages = async (req, res, next) => {
-  res
-    .status(501)
-    .json({
-      message: "Instagram messages integration is not supported via the API"
-    });
+  res.status(501).json({
+    message: "Instagram messages integration is not supported via the API"
+  });
 };
