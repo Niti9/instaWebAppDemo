@@ -37,7 +37,7 @@ export const instagramAuthCallback = async (req, res, next) => {
       })
     );
 
-    console.log("response-->", tokenResponse);
+    console.log("response-->", tokenResponse.data);
     const { access_token, user_id } = tokenResponse.data;
 
     // Fetch the user profile using the access token
@@ -48,7 +48,7 @@ export const instagramAuthCallback = async (req, res, next) => {
       }
     });
 
-    console.log("profile-->", profileResponse);
+    console.log("profile-->", profileResponse.data);
     const profileData = profileResponse.data;
 
     // Check if the account is already linked
