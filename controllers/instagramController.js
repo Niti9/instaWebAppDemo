@@ -10,7 +10,7 @@ const IG_API_URL = "https://graph.instagram.com";
 // 1. Generate the Instagram OAuth URL for the client to authenticate
 export const getInstagramAuthUrl = (req, res) => {
   const { IG_CLIENT_ID, IG_REDIRECT_URI } = process.env;
-  const authUrl = `${IG_AUTH_URL}?client_id=${IG_CLIENT_ID}&redirect_uri=${IG_REDIRECT_URI}&scope=instagram_basic%2Cinstagram_manage_messages%2Cinstagram_manage_comments%2Cinstagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish%2Cinstagram_business_manage_insights&response_type=code`;
+  const authUrl = `${IG_AUTH_URL}?client_id=${IG_CLIENT_ID}&redirect_uri=${IG_REDIRECT_URI}&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish%2Cinstagram_business_manage_insights&response_type=code`;
   res.json({ authUrl });
 };
 
@@ -36,7 +36,7 @@ export const instagramAuthCallback = async (req, res, next) => {
       })
     );
 
-    console.log("response-->", tokenResponse);
+    console.log("response-->", tokenResponse.data);
     const { access_token, user_id } = tokenResponse.data;
 
     // Fetch the user profile using the access token
