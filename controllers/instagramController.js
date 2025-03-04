@@ -57,6 +57,10 @@ export const instagramAuthCallback = async (req, res, next) => {
     });
 
     if (existingAccount) {
+      await InstagramAccount.updateOne(
+        { instagramId: profileData.id },
+        { $set: { accessToken: access_token } }
+      );
       return res
         .status(400)
         .json({ message: "This Instagram account is already linked" });
