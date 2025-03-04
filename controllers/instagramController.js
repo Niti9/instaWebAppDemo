@@ -53,7 +53,7 @@ export const instagramAuthCallback = async (req, res, next) => {
 
     // Check if the account is already linked
     let existingAccount = await InstagramAccount.findOne({
-      user: req.user.id,
+      // user: req.user.id,
       instagramId: profileData.id
     });
 
@@ -65,7 +65,7 @@ export const instagramAuthCallback = async (req, res, next) => {
 
     // Create and store the new Instagram account
     const newAccount = await InstagramAccount.create({
-      user: req.user.id,
+      // user: req.user.id,
       instagramId: profileData.id,
       username: profileData.username,
       fullName: "", // Not provided by the Basic Display API
