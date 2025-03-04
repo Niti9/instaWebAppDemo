@@ -17,7 +17,6 @@ export const getInstagramAuthUrl = (req, res) => {
 // 2. Handle OAuth callback from Instagram – exchange the code for an access token
 export const instagramAuthCallback = async (req, res, next) => {
   const { code } = req.query;
-  console.log("request is ", req);
   console.log("code is", code);
   // const code = "AQCkPVoqjzN9P16cv5zimcwd50lgwfLAr7DFjCCC0x9RiTGs614UJDiNQco6u_st210HLqlhOUGzVikeCVCeUVM5GVFvc4aAa";
   if (!code)
