@@ -4,6 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,6 +21,7 @@
     "mongodb": "^6.13.1",
     "mongoose": "^8.11.0",
     "morgan": "^1.10.0",
+    "nodemon": "^3.1.9",
     "path": "^0.12.7",
     "querystring": "^0.2.1",
     "url": "^0.11.4"
