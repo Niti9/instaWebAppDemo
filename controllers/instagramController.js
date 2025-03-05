@@ -143,6 +143,7 @@ export const instagramAuthCallback = async (req, res, next) => {
         { instagramId: profileData.id },
         { $set: { accessToken: access_token } }
       );
+      console.log("existing account");
     } else {
       await InstagramAccount.create({
         instagramId: profileData.id,
@@ -151,16 +152,13 @@ export const instagramAuthCallback = async (req, res, next) => {
         accessToken: access_token,
         connectedAt: new Date()
       });
+      console.log("new  account");
     }
 
     // ✅ Redirect the user to the frontend page with the access token
-    return res.json(
-      `http://localhost:5173/auth/callback?token=${access_token}`
+    return res.redirect(
+      `https://crm.noytindia.com/auth/callback?token=${access_token}`
     );
-
-    // return res.redirect(
-    //   `http://localhost:5173/auth/callback?token=${access_token}`
-    // );
     // return res.redirect(`${FRONTEND_URL}/auth/callback?token=${access_token}`);
   } catch (error) {
     console.error(error.response ? error.response.data : error.message);
