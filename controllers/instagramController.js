@@ -154,9 +154,13 @@ export const instagramAuthCallback = async (req, res, next) => {
     }
 
     // ✅ Redirect the user to the frontend page with the access token
-    return res.redirect(
+    return res.json(
       `http://localhost:5173/auth/callback?token=${access_token}`
     );
+
+    // return res.redirect(
+    //   `http://localhost:5173/auth/callback?token=${access_token}`
+    // );
     // return res.redirect(`${FRONTEND_URL}/auth/callback?token=${access_token}`);
   } catch (error) {
     console.error(error.response ? error.response.data : error.message);
