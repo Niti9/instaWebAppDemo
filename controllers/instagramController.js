@@ -22,83 +22,83 @@ export const instagramAuthCallback = async (req, res, next) => {
   if (!code)
     return res.status(400).json({ message: "Authorization code not provided" });
 
-  try {
-    const { IG_CLIENT_ID, IG_CLIENT_SECRET, IG_REDIRECT_URI } = process.env;
-    // Exchange code for an access token
-    const tokenResponse = await axios.post(
-      IG_TOKEN_URL,
-      querystring.stringify({
-        client_id: IG_CLIENT_ID,
-        client_secret: IG_CLIENT_SECRET,
-        grant_type: "authorization_code",
-        redirect_uri: IG_REDIRECT_URI,
-        code
-      })
-    );
+  // try {
+  //   const { IG_CLIENT_ID, IG_CLIENT_SECRET, IG_REDIRECT_URI } = process.env;
+  //   // Exchange code for an access token
+  //   const tokenResponse = await axios.post(
+  //     IG_TOKEN_URL,
+  //     querystring.stringify({
+  //       client_id: IG_CLIENT_ID,
+  //       client_secret: IG_CLIENT_SECRET,
+  //       grant_type: "authorization_code",
+  //       redirect_uri: IG_REDIRECT_URI,
+  //       code
+  //     })
+  //   );
 
-    console.log("response-->", tokenResponse.data);
-    const { access_token, user_id } = tokenResponse.data;
+  //   console.log("response-->", tokenResponse.data);
+  //   const { access_token, user_id } = tokenResponse.data;
 
-    // Fetch the user profile using the access token
-    const profileResponse = await axios.get(`${IG_API_URL}/${user_id}`, {
-      params: {
-        fields: "id,username,account_type,media_count",
-        access_token
-      }
-    });
+  //   // Fetch the user profile using the access token
+  //   const profileResponse = await axios.get(`${IG_API_URL}/${user_id}`, {
+  //     params: {
+  //       fields: "id,username,account_type,media_count",
+  //       access_token
+  //     }
+  //   });
 
-    console.log("profile-->", profileResponse.data);
-    const profileData = profileResponse.data;
+  //   console.log("profile-->", profileResponse.data);
+  //   const profileData = profileResponse.data;
 
-    // Check if the account is already linked
-    let existingAccount = await InstagramAccount.findOne({
-      // user: req.user.id,
-      instagramId: profileData.id
-    });
+  //   // Check if the account is already linked
+  //   let existingAccount = await InstagramAccount.findOne({
+  //     // user: req.user.id,
+  //     instagramId: profileData.id
+  //   });
 
-    if (existingAccount) {
-      await InstagramAccount.updateOne(
-        { instagramId: profileData.id },
-        { $set: { accessToken: access_token } }
-      );
-      return res
-        .status(400)
-        .json({ message: "This Instagram account is already linked" });
-    }
+  //   if (existingAccount) {
+  //     await InstagramAccount.updateOne(
+  //       { instagramId: profileData.id },
+  //       { $set: { accessToken: access_token } }
+  //     );
+  //     return res
+  //       .status(400)
+  //       .json({ message: "This Instagram account is already linked" });
+  //   }
 
-    // Create and store the new Instagram account
-    const newAccount = await InstagramAccount.create({
-      // user: req.user.id,
-      instagramId: profileData.id,
-      username: profileData.username,
-      fullName: "", // Not provided by the Basic Display API
-      profilePicture: "", // Not provided by the Basic Display API
-      bio: "",
-      website: "",
-      followers: 0, // To be updated with additional API calls if needed
-      following: 0,
-      postsCount: profileData.media_count,
-      type: profileData.account_type,
-      accessToken: access_token,
-      tokenExpiresAt: null, // For long‑lived tokens, adjust as necessary
-      connectedAt: new Date()
-    });
+  //   // Create and store the new Instagram account
+  //   const newAccount = await InstagramAccount.create({
+  //     // user: req.user.id,
+  //     instagramId: profileData.id,
+  //     username: profileData.username,
+  //     fullName: "", // Not provided by the Basic Display API
+  //     profilePicture: "", // Not provided by the Basic Display API
+  //     bio: "",
+  //     website: "",
+  //     followers: 0, // To be updated with additional API calls if needed
+  //     following: 0,
+  //     postsCount: profileData.media_count,
+  //     type: profileData.account_type,
+  //     accessToken: access_token,
+  //     tokenExpiresAt: null, // For long‑lived tokens, adjust as necessary
+  //     connectedAt: new Date()
+  //   });
 
-    res.status(201).json({
-      success: true,
-      account: {
-        id: newAccount._id,
-        instagramId: newAccount.instagramId,
-        username: newAccount.username,
-        fullName: newAccount.fullName,
-        profilePicture: newAccount.profilePicture,
-        type: newAccount.type
-      }
-    });
-  } catch (error) {
-    console.error(error.response ? error.response.data : error.message);
-    next(error);
-  }
+  //   res.status(201).json({
+  //     success: true,
+  //     account: {
+  //       id: newAccount._id,
+  //       instagramId: newAccount.instagramId,
+  //       username: newAccount.username,
+  //       fullName: newAccount.fullName,
+  //       profilePicture: newAccount.profilePicture,
+  //       type: newAccount.type
+  //     }
+  //   });
+  // } catch (error) {
+  //   console.error(error.response ? error.response.data : error.message);
+  //   next(error);
+  // }
 };
 
 // 3. Get all linked Instagram accounts for the current user
