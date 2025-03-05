@@ -157,7 +157,7 @@ export const instagramAuthCallback = async (req, res, next) => {
       console.log("existing account");
     }
 
-    const redirectUrl = `https://crm.noytindia.com/auth/callback?token=${access_token}`;
+    const redirectUrl = `http://localhost:5173/auth/callback?token=${access_token}`;
     console.log("redirectUrl is", redirectUrl);
     return res.status(200).redirect(redirectUrl);
     // ✅ Redirect the user to the frontend page with the access token
